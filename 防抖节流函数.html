@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+  //防抖：避免用户误触产生请求，避免重复发起请求
+  //节流：将多次请求转换成几秒钟请求一次
+  //防抖方法一
+  var time
+  function debounce(fn, delay) {
+    clearTimeout(time)
+    time = setTimeout(function () {
+      fn()
+    }, delay)
+  }
+
+  document.onmousemove = () => {
+    debounce(text, 2000)
+  }
+  //通过闭包优化防抖函数
+  function debounce(fn, delay) {
+    var timer; // 维护一个 timer
+    return function () {
+      var _this = this; // 取debounce执行作用域的this
+      var args = arguments;
+      if (timer) {
+        clearTimeout(timer);
+      }
+      timer = setTimeout(function () {
+        fn(_this, args);// 用apply指向调用debounce的对象，相当于_this.fn(args);
+      }, delay);
+    };
+  }
+  // test
+  function testDebounce(e, content) {
+    console.log(e, content);
+  }
+  var testDebounceFn = debounce(testDebounce, 1000); // 防抖函数
+  document.onmousemove = function (e) {
+    testDebounceFn(e, 'debounce'); // 给防抖函数传参
+  }
+</script>
