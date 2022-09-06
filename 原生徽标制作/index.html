@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css attr()</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        div {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            border-radius: 20px;
+            background: url('./image/weixing.png');
+            background-size: 100%;
+        }
+
+        /* 通过属性控制值 */
+        div::after {
+            content: attr(data-count);
+            position: absolute;
+            right: -15px;
+            top: -15px;
+            width: 40px;
+            height: 40px;
+            background: red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            color: white;
+        }
+
+        div[data-count='0']::after {
+            display: none;
+        }
+
+        [data-text] {
+            color: blue;
+        }
+
+        [data-text]::before {
+            content: attr(data-text);
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div data-count="0" onclick="updateCount(this)"></div>
+    <p data-text="hello">world</p>
+</body>
+
+</html>
+<script>
+    const updateCount = (e) => {
+        console.log(e.dataset.count);//取出dom元素的属性值
+        let newCount = e.dataset.count * 1 + 1
+        e.dataset.count = newCount
+    }
+</script>
